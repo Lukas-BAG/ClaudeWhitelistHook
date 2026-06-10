@@ -32,7 +32,7 @@ curl -fsSL https://raw.githubusercontent.com/Lukas-BAG/ClaudeWhitelistHook/main/
 python3 install.py /path/to/your/project
 ```
 
-No need to clone the repo — if `install.py` is run outside the repo it fetches the required files from GitHub automatically.
+`install.py` is self-contained — everything it writes to your project is embedded in the file as plain text. No network calls, no surprises. Read it before running.
 
 The script will:
 - Copy `pre_tool_use.py` and `hook_instructions.md` into `.claude/` (skips if already present)
