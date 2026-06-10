@@ -16,6 +16,11 @@ It acts as an additional layer on top of Claude's own permission settings (`allo
 
 ## How to deploy
 
+You need:
+- The pre tool use hook script
+- Claude settings referencing the pre tool use hook script
+- CLAUDE.md referencing the whitelist instructions (optional but ideal)
+
 ### Option A — automatic install script
 
 > **Read first!** The script copies files into your project and modifies `CLAUDE.md` and `settings.json`. Review what it does before running it, especially in an existing project.
