@@ -25,12 +25,14 @@ You need:
 
 > **Read first!** The script copies files into your project and modifies `CLAUDE.md` and `settings.json`. Review what it does before running it, especially in an existing project.
 
-Clone the repo, then run `install.py` pointing at your target project (`.` = current directory):
+Download `install.py` and run it pointing at your target project (`.` = current directory):
 
 ```bash
-git clone https://github.com/Lukas-BAG/ClaudeWhitelistHook
-python3 ClaudeWhitelistHook/install.py /path/to/your/project
+curl -fsSL https://raw.githubusercontent.com/Lukas-BAG/ClaudeWhitelistHook/main/install.py -o install.py
+python3 install.py /path/to/your/project
 ```
+
+No need to clone the repo — if `install.py` is run outside the repo it fetches the required files from GitHub automatically.
 
 The script will:
 - Copy `pre_tool_use.py` and `hook_instructions.md` into `.claude/` (skips if already present)
