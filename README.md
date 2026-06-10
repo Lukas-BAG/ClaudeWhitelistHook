@@ -20,18 +20,11 @@ It acts as an additional layer on top of Claude's own permission settings (`allo
 
 > **Read first!** The script copies files into your project and modifies `CLAUDE.md` and `settings.json`. Review what it does before running it, especially in an existing project.
 
-Run from within the cloned repo, pointing at your target project (`.` = current directory):
+Clone the repo, then run `install.py` pointing at your target project (`.` = current directory):
 
 ```bash
-python3 install.py /path/to/your/project
-python3 install.py .
-```
-
-Or run directly from GitHub without cloning first:
-
-```bash
-curl -fsSL https://raw.githubusercontent.com/Lukas-BAG/ClaudeWhitelistHook/main/install.py \
-  | python3 - --from-git https://github.com/Lukas-BAG/ClaudeWhitelistHook /path/to/your/project
+git clone https://github.com/Lukas-BAG/ClaudeWhitelistHook
+python3 ClaudeWhitelistHook/install.py /path/to/your/project
 ```
 
 The script will:

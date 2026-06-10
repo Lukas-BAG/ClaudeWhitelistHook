@@ -5,20 +5,14 @@ install.py — add the PreToolUse whitelist hook to an existing Claude Code proj
 This does not install software. It copies a hook script and config files into
 an existing project's .claude/ directory and wires them up.
 
-Local (run from within the cloned repo):
+Usage:
     python3 install.py /path/to/your/project
     python3 install.py .
-
-From git (no clone needed):
-    curl -fsSL https://raw.githubusercontent.com/Lukas-BAG/ClaudeWhitelistHook/main/install.py \
-      | python3 - --from-git https://github.com/Lukas-BAG/ClaudeWhitelistHook /path/to/your/project
 """
 import argparse
 import os
 import shutil
-import subprocess
 import sys
-import tempfile
 
 CLAUDE_MD_IMPORT = "@.claude/hook_instructions.md"
 
@@ -61,16 +55,17 @@ def put(src, dst, label):
     print(f"  [copied]  {label}")
 
 
-def install(source_claude_dir, target_dir):
+def install(target_dir):
     target_dir = os.path.realpath(target_dir)
     if not os.path.isdir(target_dir):
         sys.exit(f"Error: target directory does not exist: {target_dir}")
 
-    print(f"\nTarget: {target_dir}\n")
+    src = os.path.join(os.path.dirname(os.path.realpath(__file__)), ".claude")
     dst = os.path.join(target_dir, ".claude")
+    print(f"\nTarget: {target_dir}\n")
 
-    put(os.path.join(source_claude_dir, "hooks/pre_tool_use.py"), os.path.join(dst, "hooks/pre_tool_use.py"), ".claude/hooks/pre_tool_use.py")
-    put(os.path.join(source_claude_dir, "hook_instructions.md"), os.path.join(dst, "hook_instructions.md"), ".claude/hook_instructions.md")
+    put(os.path.join(src, "hooks/pre_tool_use.py"), os.path.join(dst, "hooks/pre_tool_use.py"), ".claude/hooks/pre_tool_use.py")
+    put(os.path.join(src, "hook_instructions.md"), os.path.join(dst, "hook_instructions.md"), ".claude/hook_instructions.md")
 
     whitelist = os.path.join(dst, "whitelist.txt")
     if os.path.exists(whitelist):
@@ -107,26 +102,7 @@ def install(source_claude_dir, target_dir):
     print("Done.")
 
 
-def install_from_git(repo_url, target_dir):
-    with tempfile.TemporaryDirectory() as tmp:
-        print(f"Cloning {repo_url} ...")
-        subprocess.run(["git", "clone", "--depth", "1", repo_url, tmp], check=True)
-        source = os.path.join(tmp, ".claude")
-        if not os.path.isdir(source):
-            sys.exit("Error: expected .claude/ directory at the repository root")
-        install(source, target_dir)
-
-
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("target", nargs="?", default=os.getcwd(), help="Target project directory (default: cwd)")
-    parser.add_argument("--from-git", metavar="URL", help="Clone from this URL instead of using local files")
-    args = parser.parse_args()
-
-    if args.from_git:
-        install_from_git(args.from_git, args.target)
-    else:
-        script_file = os.path.realpath(__file__)
-        if not os.path.isfile(script_file):
-            sys.exit("Error: cannot locate source files from stdin — use --from-git URL instead")
-        install(os.path.join(os.path.dirname(script_file), ".claude"), args.target)
+    install(parser.parse_args().target)
