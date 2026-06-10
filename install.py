@@ -172,6 +172,11 @@ FRESH_WHITELIST = """\
 r: .claude/whitelist.txt
 r: .claude/hook_instructions.md
 r: .claude/settings.json
+
+w: CLAUDE.md
+w: README.md
+w: README.txt
+w: README.rst
 """
 
 SETTINGS_SNIPPET = """\
