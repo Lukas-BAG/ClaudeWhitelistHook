@@ -1,0 +1,26 @@
+# Whitelist for Claude file access.
+#
+# This file is listed with read-only ('r:') access below. Claude can see what is
+# whitelisted but cannot modify this file — so it cannot grant itself new permissions.
+#
+# Note: the PreToolUse hook is an additional layer on top of Claude's own permission
+# rules (allow/deny/ask in settings.json). It is not a foolproof defense — a
+# sufficiently determined model could find ways around it. Treat it as a soft guardrail
+# and a clear signal of intent, not an airtight sandbox.
+#
+# Format:
+#   r: path   read-only access
+#   w: path   write access (implicitly grants read too)
+#
+# Paths can be absolute or relative to the project root.
+# Inline comments after ' #' are stripped.
+#
+# Examples:
+#   r: CLAUDE.md                          # relative read — project root
+#   r: docs/reference.md                  # relative read — subdirectory
+#   r: /home/user/project/config.json     # absolute read
+#   w: src/output.py                      # relative write (also grants read)
+#   w: /home/user/project/notes.txt       # absolute write (also grants read)
+
+r: .claude/whitelist.txt       # read-only: Claude can see the whitelist but not modify it
+r: .claude/hook_instructions.md  # read-only: Claude can read its instructions but not modify them
