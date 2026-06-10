@@ -234,6 +234,10 @@ def install(target_dir):
 
     print("Done.")
 
+    if input("\nRemove install.py? (optional) [y/N] ").strip().lower() == "y":
+        os.remove(os.path.realpath(__file__))
+        print("install.py removed.")
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
