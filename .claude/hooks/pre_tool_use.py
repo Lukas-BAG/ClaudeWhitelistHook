@@ -20,6 +20,16 @@ CLAUDE_DIR = os.path.realpath(os.path.join(HOOK_DIR, ".."))
 PROJECT_ROOT = os.path.dirname(CLAUDE_DIR)
 WHITELIST_PATH = os.path.join(CLAUDE_DIR, "whitelist.txt")
 
+if os.path.realpath(CLAUDE_DIR) == os.path.realpath(os.path.expanduser("~/.claude")):
+    print(
+        "Error: this hook must be configured per-project in .claude/settings.json, "
+        "not globally in ~/.claude/settings.json. "
+        "Path resolution relies on the hook's location to find the project root and whitelist. "
+        "See the README for setup instructions.",
+        file=sys.stderr,
+    )
+    sys.exit(2)
+
 BLOCKED_BASH_COMMANDS = {
     "curl", "wget", "nc", "netcat", "ssh", "scp", "rsync",
     "cat", "python3", "python", "node", "perl", "ruby",
