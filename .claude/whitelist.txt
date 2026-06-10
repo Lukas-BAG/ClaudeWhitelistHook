@@ -22,5 +22,6 @@
 #   w: src/output.py                      # relative write (also grants read)
 #   w: /home/user/project/notes.txt       # absolute write (also grants read)
 
-r: .claude/whitelist.txt       # read-only: Claude can see the whitelist but not modify it
+r: .claude/whitelist.txt         # read-only: Claude can see the whitelist but not modify it
 r: .claude/hook_instructions.md  # read-only: Claude can read its instructions but not modify them
+r: .claude/settings.json         # read-only: Claude can verify the hook is configured
