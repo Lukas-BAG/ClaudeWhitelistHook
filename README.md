@@ -17,9 +17,10 @@ It acts as an additional layer on top of Claude's own permission settings (`allo
 ## How to deploy
 
 You need:
-- The pre tool use hook script
-- Claude settings referencing the pre tool use hook script
-- CLAUDE.md referencing the whitelist instructions (optional but ideal)
+- `.claude/hooks/pre_tool_use.py` — the hook script
+- `.claude/whitelist.txt` — the list of files Claude may access
+- `.claude/settings.json` with a `PreToolUse` entry pointing to the hook script
+- `CLAUDE.md` importing `.claude/hook_instructions.md` (optional but recommended)
 
 ### Option A — automatic install script
 
