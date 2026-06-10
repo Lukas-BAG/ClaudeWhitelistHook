@@ -87,6 +87,7 @@ def load_whitelist():
                     continue
                 prefix = line[0]
                 entry = line[2:].strip()
+                # Strip inline comments
                 if " #" in entry:
                     entry = entry[:entry.index(" #")].strip()
                 if not entry:
@@ -133,6 +134,7 @@ try:
                 deny(f"Blocked: '{words[0]}' is not allowed")
 
 except Exception as e:
+    # Fail open — never block on hook errors
     print(f"Hook error (non-blocking): {e}", file=sys.stderr)
 
 sys.exit(0)
