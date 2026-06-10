@@ -1,12 +1,17 @@
 #!/usr/bin/env python3
 """
-install.py — install the PreToolUse whitelist hook into a target project.
+install.py — add the PreToolUse whitelist hook config to an existing project.
 
-Local install (run from this directory):
+This does not install software. It copies a hook script and config files into
+an existing project's .claude/ directory and wires them up.
+
+Local (run from within the cloned repo):
     python3 install.py /path/to/your/project
+    python3 install.py .                        # current directory
 
-Install directly from git:
-    python3 install.py --from-git <repo-url> /path/to/your/project
+From git (no clone needed):
+    curl -fsSL https://raw.githubusercontent.com/Lukas-BAG/ClaudeWhitelistHook/main/install.py \\
+      | python3 - --from-git https://github.com/Lukas-BAG/ClaudeWhitelistHook /path/to/your/project
 """
 import argparse
 import json
@@ -132,9 +137,9 @@ def install_from_git(repo_url, target_dir):
     with tempfile.TemporaryDirectory() as tmp:
         print(f"Cloning {repo_url} ...")
         subprocess.run(["git", "clone", "--depth", "1", repo_url, tmp], check=True)
-        source_claude_dir = os.path.join(tmp, "Pre_tool_use_hook_whitelist_tool", ".claude")
+        source_claude_dir = os.path.join(tmp, ".claude")
         if not os.path.isdir(source_claude_dir):
-            sys.exit("Error: expected Pre_tool_use_hook_whitelist_tool/.claude/ in the repository")
+            sys.exit("Error: expected .claude/ directory in the repository root")
         install(source_claude_dir, target_dir)
 
 
@@ -158,5 +163,8 @@ if __name__ == "__main__":
     if args.from_git:
         install_from_git(args.from_git, args.target)
     else:
-        local_claude_dir = os.path.join(os.path.dirname(os.path.realpath(__file__)), ".claude")
+        script_file = os.path.realpath(__file__)
+        if not os.path.isfile(script_file):
+            sys.exit("Error: cannot locate source files when running from stdin. Use --from-git URL instead.")
+        local_claude_dir = os.path.join(os.path.dirname(script_file), ".claude")
         install(local_claude_dir, args.target)

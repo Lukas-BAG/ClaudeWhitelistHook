@@ -1,6 +1,8 @@
 # PreToolUse Hook — File Access Whitelist
 
-A Claude Code `PreToolUse` hook that restricts which files Claude can read and write. It acts as an additional layer on top of Claude's own permission settings (`allow`/`deny`/`ask` in `settings.json`) — not a foolproof sandbox, but a clear soft guardrail.
+Adds a `PreToolUse` hook to an existing Claude Code project that restricts which files Claude can read and write. This does not install any software — it copies a hook script and a few config files into your project's `.claude/` directory and wires them up.
+
+It acts as an additional layer on top of Claude's own permission settings (`allow`/`deny`/`ask` in `settings.json`) — not a foolproof sandbox, but a clear soft guardrail.
 
 ## What's included
 
@@ -16,16 +18,20 @@ A Claude Code `PreToolUse` hook that restricts which files Claude can read and w
 
 ### Option A — automatic install script
 
-Run `install.py` from within this directory, pointing it at your target project:
+> **Read first!** The script copies files into your project and modifies `CLAUDE.md` and `settings.json`. Review what it does before running it, especially in an existing project.
+
+Run from within the cloned repo, pointing at your target project (`.` = current directory):
 
 ```bash
 python3 install.py /path/to/your/project
+python3 install.py .
 ```
 
-Or install directly from git without cloning first:
+Or run directly from GitHub without cloning first:
 
 ```bash
-python3 install.py --from-git <repo-url> /path/to/your/project
+curl -fsSL https://raw.githubusercontent.com/Lukas-BAG/ClaudeWhitelistHook/main/install.py \
+  | python3 - --from-git https://github.com/Lukas-BAG/ClaudeWhitelistHook /path/to/your/project
 ```
 
 The script will:

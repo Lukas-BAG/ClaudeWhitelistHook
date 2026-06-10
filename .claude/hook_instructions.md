@@ -11,3 +11,5 @@ Before reading, editing, or writing any file, check whether it is whitelisted. I
 This applies to all file-accessing tools: `Read`, `Edit`, `Write`, and `Bash` commands that read or modify files.
 
 Note: this is a soft guardrail layered on top of Claude's own permission settings, not an airtight sandbox.
+
+Source: https://github.com/Lukas-BAG/ClaudeWhitelistHook
