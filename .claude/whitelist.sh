@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Manage .claude/whitelist.txt entries. Usage: whitelist.sh read|write|none <path>"""
+'''Manage .claude/whitelist.txt entries. Usage: whitelist.sh read|write|none <path>'''
 
 import os
 import re

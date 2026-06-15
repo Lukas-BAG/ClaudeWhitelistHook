@@ -23,6 +23,7 @@ def replace_block(source, varname, new_content):
 install_py = read("install.py")
 install_py = replace_block(install_py, "HOOK_SCRIPT", read(".claude/hooks/pre_tool_use.py"))
 install_py = replace_block(install_py, "HOOK_INSTRUCTIONS", read(".claude/hook_instructions.md"))
+install_py = replace_block(install_py, "WHITELIST_SCRIPT", read(".claude/whitelist.sh"))
 
 open(os.path.join(HERE, "install.py"), "w").write(install_py)
 print("install.py updated.")
