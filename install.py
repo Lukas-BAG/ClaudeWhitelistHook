@@ -172,7 +172,7 @@ When you need access to a file that is not whitelisted, tell the user which file
 Source: https://github.com/Lukas-BAG/ClaudeWhitelistHook
 """
 
-WHITELIST_SCRIPT = r"""\
+WHITELIST_SCRIPT = """\
 #!/usr/bin/env python3
 '''Manage .claude/whitelist.txt entries. Usage: whitelist.sh read|write|none <path>'''
 
@@ -194,8 +194,8 @@ def normalize(path_str, project_root):
 
 
 def parse_entry(line):
-    stripped = re.sub(r'\s+#.*$', '', line).rstrip()
-    m = re.match(r'^\s*(r|w):\s+(.+)', stripped)
+    stripped = re.sub(r'\\s+#.*$', '', line).rstrip()
+    m = re.match(r'^\\s*(r|w):\\s+(.+)', stripped)
     return (m.group(1), m.group(2)) if m else None
 
 
@@ -265,7 +265,7 @@ def main():
                 lines_to_remove.add(idx)
         else:
             first_idx = target_entries[0][0]
-            lines_to_replace[first_idx] = f'{new_perm}: {target}\n'
+            lines_to_replace[first_idx] = f'{new_perm}: {target}\\n'
             for idx, _ in target_entries[1:]:
                 lines_to_remove.add(idx)
     elif new_perm is not None:
@@ -278,9 +278,9 @@ def main():
         new_lines.append(lines_to_replace.get(i, line))
 
     if append_new:
-        if new_lines and not new_lines[-1].endswith('\n'):
-            new_lines[-1] += '\n'
-        new_lines.append(f'{new_perm}: {target}\n')
+        if new_lines and not new_lines[-1].endswith('\\n'):
+            new_lines[-1] += '\\n'
+        new_lines.append(f'{new_perm}: {target}\\n')
 
     with open(whitelist_path, 'w') as f:
         f.writelines(new_lines)
