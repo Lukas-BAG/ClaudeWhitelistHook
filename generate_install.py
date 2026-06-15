@@ -12,8 +12,9 @@ def read(rel):
     return open(os.path.join(HERE, rel)).read()
 
 
-def replace_block(source, varname, new_content):
-    start_marker = f'{varname} = """\\\n'
+def replace_block(source, varname, new_content, raw=False):
+    quote = 'r"""' if raw else '"""'
+    start_marker = f'{varname} = {quote}\\\n'
     end_marker = '\n"""'
     start = source.index(start_marker) + len(start_marker)
     end = source.index(end_marker, start)
@@ -23,7 +24,7 @@ def replace_block(source, varname, new_content):
 install_py = read("install.py")
 install_py = replace_block(install_py, "HOOK_SCRIPT", read(".claude/hooks/pre_tool_use.py"))
 install_py = replace_block(install_py, "HOOK_INSTRUCTIONS", read(".claude/hook_instructions.md"))
-install_py = replace_block(install_py, "WHITELIST_SCRIPT", read(".claude/whitelist.sh"))
+install_py = replace_block(install_py, "WHITELIST_SCRIPT", read(".claude/whitelist.sh"), raw=True)
 
 open(os.path.join(HERE, "install.py"), "w").write(install_py)
 print("install.py updated.")

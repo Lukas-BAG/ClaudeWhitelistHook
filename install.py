@@ -172,7 +172,7 @@ When you need access to a file that is not whitelisted, tell the user which file
 Source: https://github.com/Lukas-BAG/ClaudeWhitelistHook
 """
 
-WHITELIST_SCRIPT = """\
+WHITELIST_SCRIPT = r"""\
 #!/usr/bin/env python3
 '''Manage .claude/whitelist.txt entries. Usage: whitelist.sh read|write|none <path>'''
 
